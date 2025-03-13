@@ -33,3 +33,25 @@ def ex_PBT : PBT :=
   p_family A (p_family B D (p_family E H I)) (p_family C F G)
 
 #eval toString ex_PBT
+
+def PBT_cal_leaf_node : PBT → Nat
+  | p_node _ => 1
+  | p_family _ l r => PBT_cal_leaf_node l + PBT_cal_leaf_node r
+
+def PBT_cal_parent_node : PBT → Nat
+  | p_node _ => 0
+  | p_family _ l r => 1 + PBT_cal_parent_node l + PBT_cal_parent_node r
+
+#eval PBT_cal_leaf_node ex_PBT
+#eval PBT_cal_parent_node ex_PBT
+
+theorem PBT_parent_node_equals_to_leaf_node_plus_1 :
+  ∀ t : PBT , (PBT_cal_parent_node t) + 1= (PBT_cal_leaf_node t) := by
+  intro t
+  induction t
+  case p_node => rfl
+  case p_family p l r IH_p IH_l IH_r =>
+    unfold PBT_cal_parent_node
+    unfold PBT_cal_leaf_node
+    rewrite [IH_p]
+    rfl
