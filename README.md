@@ -1,1 +1,1 @@
-# logic
+# Mathematical Logic @ NJUIS
