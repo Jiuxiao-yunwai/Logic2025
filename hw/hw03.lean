@@ -62,9 +62,4 @@ theorem PBT_parent_node_equals_to_leaf_node_plus_1 :
   induction t
   case p_node => rfl
   case p_family p l r IH_l IH_r =>
-
-    unfold PBT_cal_leaf_node
-    unfold PBT_cal_parent_node
-
-    rewrite [IH_l , IH_r]
-    rfl
+    sorry
