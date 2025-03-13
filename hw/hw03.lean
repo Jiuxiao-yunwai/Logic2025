@@ -1,36 +1,47 @@
 -- T1
 -- 1.1 proper binary tree
+inductive Node : Type
+| base : String → Node
+
+open Node
+
+def Node_to_String : Node → String
+| base str => str
+
+instance : ToString Node where
+  toString := Node_to_String
 
 inductive PBT : Type
 -- Base case
-| p_node : String → PBT
+| p_node : Node → PBT
 -- Induction steps
-| p_family: PBT → PBT → PBT → PBT
--- parent node + left Node + right node  = PBT
+| p_family: Node → PBT → PBT → PBT
+-- parent node + left Tree + right Tree  = PBT
 
 open PBT
 
 def PBT_to_String : PBT → String
   -- Base case
-  | p_node s => s
+  | p_node s => toString s
   -- Induction steps
-  | p_family p l r => PBT_to_String p ++ " "++ PBT_to_String l ++ " ^ " ++ PBT_to_String r ++ " ^ "
+  | p_family p l r =>
+    toString p ++ " " ++ PBT_to_String l ++ " ^ " ++ PBT_to_String r ++ " ^ "
 
 instance : ToString PBT where
   toString := PBT_to_String
 
-def A : PBT := p_node "A"
-def B : PBT := p_node "B"
-def C : PBT := p_node "C"
-def D : PBT := p_node "D"
-def E : PBT := p_node "E"
-def F : PBT := p_node "F"
-def G : PBT := p_node "G"
-def H : PBT := p_node "H"
-def I : PBT := p_node "I"
+def A : Node := base "A"
+def B : Node := base "B"
+def C : Node := base "C"
+def D : Node := base "D"
+def E : Node := base "E"
+def F : Node := base "F"
+def G : Node := base "G"
+def H : Node := base "H"
+def I : Node := base "I"
 
 def ex_PBT : PBT :=
-  p_family A (p_family B D (p_family E H I)) (p_family C F G)
+  p_family A (p_family B (p_node D) (p_family E (p_node H) (p_node I))) (p_family C (p_node F) (p_node G))
 
 #eval toString ex_PBT
 
@@ -50,8 +61,10 @@ theorem PBT_parent_node_equals_to_leaf_node_plus_1 :
   intro t
   induction t
   case p_node => rfl
-  case p_family p l r IH_p IH_l IH_r =>
-    unfold PBT_cal_parent_node
+  case p_family p l r IH_l IH_r =>
+
     unfold PBT_cal_leaf_node
-    rewrite [IH_p]
+    unfold PBT_cal_parent_node
+
+    rewrite [IH_l , IH_r]
     rfl
