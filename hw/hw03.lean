@@ -62,4 +62,5 @@ theorem PBT_parent_node_equals_to_leaf_node_plus_1 :
   induction t
   case p_node => rfl
   case p_family p l r IH_l IH_r =>
-    sorry
+    simp [PBT_cal_leaf_node, PBT_cal_parent_node, IH_l, IH_r]
+    omega
