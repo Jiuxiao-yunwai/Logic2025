@@ -64,3 +64,29 @@ theorem PBT_parent_node_equals_to_leaf_node_plus_1 :
   case p_family p l r IH_l IH_r =>
     simp [PBT_cal_leaf_node, PBT_cal_parent_node, IH_l, IH_r]
     omega
+
+
+-- 1.2 SpecialString
+
+inductive BinStr : Type
+  | empty : BinStr
+
+  | push_zero : BinStr → BinStr
+  | push_one : BinStr → BinStr
+
+open BinStr
+
+def BinStr_to_String : BinStr → String
+  | empty => ""
+  | push_one β => "1" ++ BinStr_to_String β
+  | push_zero β => "0" ++ BinStr_to_String β
+
+instance : ToString BinStr where
+    toString := BinStr_to_String
+
+def empty_BinStr : BinStr := empty
+def ex_BinStr : BinStr :=
+  push_one (push_one (push_zero (push_one empty)))
+
+#eval toString empty_BinStr
+#eval toString ex_BinStr
