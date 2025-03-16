@@ -189,3 +189,5 @@ theorem zero_count_parity :
         -- 情况2：s中0的个数是奇数（countZeros s % 2 = 1）
         simp [countZeros, h_odd, Nat.add_mod]
         <;> omega
+
+-- T2 见pdf
