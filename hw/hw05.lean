@@ -70,27 +70,42 @@ theorem prop_syl_2 (α β γ : Prop) (h1 : α → β) (h2 : β → γ) : α → 
 
 -- Contraposition
 theorem contr_pos (α β : Prop) : (α → β) → (¬β → ¬α) := by
-  sorry
+  intro h1 h2 h3
+  exact h2 (h1 h3)
 
 -- Triple negations
 theorem tri_neg (φ : Prop) : ¬¬¬φ → ¬φ := by
-  sorry
+  intro h1 h2
+  exact h1 (fun h3 => h3 h2)
 
 -- Axiom 14
-theorem A14 (α : Prop) : (¬¬α → α) :=
+theorem A14 (α : Prop) : (¬¬α → α) := by
   sorry
 
 theorem prop_1 (φ ψ γ : Prop) : (γ → ψ) → ((φ → γ) → (φ → ψ)) := by
-  sorry
+  intro h1 h2 h3
+  apply h1
+  apply h2
+  exact h3
 
 theorem prop_2 (φ γ : Prop) : φ → ((φ → γ) → γ) := by
-  sorry
+  intro h1 h2
+  apply h2
+  exact h1
 
 theorem prop_3 (φ γ ψ δ : Prop) : ((((φ ∧ γ) → ψ) → δ) → ((φ → ψ) → δ)) := by
-  sorry
+  intro h1 h2
+  apply h1
+  intro h3
+  apply h2
+  exact h3.1
 
 theorem prop_4 (φ γ : Prop) (h1 : φ → γ) (h2 : φ → ¬γ) : ¬φ := by
-  sorry
+  intro h3
+  exact h2 h3 (h1 h3)
 
 theorem prop_5 (φ ψ γ : Prop) (h1 : γ → ψ) (h2 : γ → (ψ → φ)) : γ → φ := by
-  sorry
+  intro h3
+  apply h2 h3
+  apply h1
+  exact h3
