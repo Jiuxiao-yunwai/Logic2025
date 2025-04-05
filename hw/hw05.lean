@@ -71,16 +71,26 @@ theorem prop_syl_2 (α β γ : Prop) (h1 : α → β) (h2 : β → γ) : α → 
 -- Contraposition
 theorem contr_pos (α β : Prop) : (α → β) → (¬β → ¬α) := by
   intro h1 h2 h3
-  exact h2 (h1 h3)
+  apply h2
+  apply h1
+  exact h3
 
 -- Triple negations
 theorem tri_neg (φ : Prop) : ¬¬¬φ → ¬φ := by
   intro h1 h2
-  exact h1 (fun h3 => h3 h2)
+  apply h1
+  intro h3
+  apply h3
+  exact h2
 
 -- Axiom 14
 theorem A14 (α : Prop) : (¬¬α → α) := by
   sorry
+  -- intro h1
+  -- apply Classical.by_contradiction
+  -- intro h2
+  -- apply h1
+  -- exact h2
 
 theorem prop_1 (φ ψ γ : Prop) : (γ → ψ) → ((φ → γ) → (φ → ψ)) := by
   intro h1 h2 h3
@@ -101,11 +111,13 @@ theorem prop_3 (φ γ ψ δ : Prop) : ((((φ ∧ γ) → ψ) → δ) → ((φ �
   exact h3.1
 
 theorem prop_4 (φ γ : Prop) (h1 : φ → γ) (h2 : φ → ¬γ) : ¬φ := by
-  intro h3
-  exact h2 h3 (h1 h3)
+  apply A9
+  exact h1
+  exact h2
 
 theorem prop_5 (φ ψ γ : Prop) (h1 : γ → ψ) (h2 : γ → (ψ → φ)) : γ → φ := by
   intro h3
-  apply h2 h3
+  apply h2
+  exact h3
   apply h1
   exact h3
